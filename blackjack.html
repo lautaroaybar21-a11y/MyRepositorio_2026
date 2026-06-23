@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,6 +29,7 @@
 
         /* Encabezado Neon Casino */
         h1 {
+            position: relative; /* Para poder posicionar el nombre a un costado */
             margin: 0;
             padding: 20px;
             font-size: 3.2rem;
@@ -48,6 +50,24 @@
             -webkit-text-fill-color: transparent;
             letter-spacing: 6px;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.9));
+        }
+
+        /* Firma de Lautaro en el costado del título */
+        .autor-tag {
+            position: absolute;
+            right: 20px;
+            bottom: 10px;
+            font-size: 0.9rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: rgba(212, 175, 55, 0.7);
+            letter-spacing: 1px;
+            text-transform: none;
+            font-weight: normal;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; padding-bottom: 35px; }
+            .autor-tag { right: 50%; transform: translateX(50%); bottom: 5px; font-size: 0.8rem; }
         }
 
         h2 {
@@ -312,6 +332,8 @@
         <span>🃏</span> 
         <span class="joker-title">CASINO JOKER</span> 
         <span>🃏</span>
+        <!-- Aquí se agregó el nombre -->
+        <span class="autor-tag">by Lautaro Aybar</span>
     </h1>
 
     <div class="panel-container">
@@ -363,11 +385,10 @@
         }
 
         function selectBet(amount) {
-            if (playing) return; // No se puede cambiar la apuesta en medio de la mano
+            if (playing) return; 
             bet = amount;
             document.getElementById("current-bet").textContent = "$" + bet;
             
-            // Cambiar clase activa visualmente
             document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
             event.target.classList.add('selected');
         }
@@ -418,13 +439,11 @@
             document.getElementById("wins").textContent = wins;
             document.getElementById("losses").textContent = losses;
 
-            // Render Jugador
             document.getElementById("player").innerHTML = player.map(c => 
                 `<div class="card ${c.red ? 'red' : ''}" data-value="${c.name}">${c.label}</div>`
             ).join("");
             document.getElementById("playerTotal").textContent = score(player);
 
-            // Render Crupier
             let d = "";
             if (!showDealer && playing) {
                 d += `<div class="card ${dealer[0].red ? 'red' : ''}" data-value="${dealer[0].name}">${dealer[0].label}</div>`;
@@ -452,7 +471,6 @@
                 return;
             }
 
-            // Animación de descuento de saldo
             const saldoEl = document.getElementById("saldo");
             saldoEl.classList.add("lose-glow");
             setTimeout(() => saldoEl.classList.remove("lose-glow"), 400);
